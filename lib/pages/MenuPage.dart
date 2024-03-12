@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tpmtugas2/assets/color/colorPalette.dart';
 import 'package:tpmtugas2/pages/CalculatorPage.dart';
 import 'package:tpmtugas2/pages/OddEvenPage.dart';
 
@@ -10,7 +11,7 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF392467),
+      backgroundColor: ColorPallete.primaryColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -33,7 +34,7 @@ class MenuPage extends StatelessWidget {
         children: [
           Text(
             "Welcome,\n$username",
-            style: TextStyle(color: Color(0xFFA367B1), fontSize: 32),
+            style: TextStyle(color: ColorPallete.thirdColor, fontSize: 32),
           ),
           TextButton(
             onPressed: () {
@@ -42,7 +43,7 @@ class MenuPage extends StatelessWidget {
             child: Icon(
               Icons.logout_sharp,
               size: 30,
-              color: Colors.white,
+              color: ColorPallete.thirdColor,
             ),
           ),
         ],
@@ -55,7 +56,7 @@ class MenuPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          margin: EdgeInsets.only(top: 100),
+          margin: EdgeInsets.only(top: 100, right: 5),
           width: 400,
           height: 200,
           child: ElevatedButton(
@@ -69,7 +70,7 @@ class MenuPage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
-              backgroundColor: Color(0xFFFFD1E3),
+              backgroundColor: ColorPallete.fourthColor,
             ),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -77,31 +78,31 @@ class MenuPage extends StatelessWidget {
                 Icon(
                   Icons.calculate,
                   size: 40,
+                  color: ColorPallete.thirdColor,
                 ),
                 Text(
                   "CALCULATOR",
-                  style: TextStyle(fontSize: 32),
+                  style:
+                      TextStyle(fontSize: 32, color: ColorPallete.thirdColor),
                 ),
               ],
             ),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 50),
+          margin: EdgeInsets.only(top: 50, right: 5),
           width: 400,
           height: 200,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const OddEvenPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const OddEvenPage()));
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
-              backgroundColor: Color(0xFFFFD1E3),
+              backgroundColor: ColorPallete.fourthColor,
             ),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -109,16 +110,43 @@ class MenuPage extends StatelessWidget {
                 Icon(
                   Icons.question_mark,
                   size: 40,
+                  color: ColorPallete.thirdColor,
                 ),
                 Text(
                   "ODD/EVEN",
-                  style: TextStyle(fontSize: 32),
+                  style:
+                      TextStyle(fontSize: 32, color: ColorPallete.thirdColor),
                 ),
               ],
             ),
           ),
         ),
+        Container(
+          height: 120,
+          margin: EdgeInsets.only(top: 40),
+          color: ColorPallete.secondaryColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _nameCard("Faisal", "123210013"),
+                  _nameCard("Raynald", "123210092"),
+                  _nameCard("Dito", "123210142")
+                ],
+              )
+            ],
+          ),
+        )
       ],
+    );
+  }
+
+  Widget _nameCard(String nama, String nim) {
+    return Text(
+      "$nama / $nim",
+      style: TextStyle(fontSize: 16),
     );
   }
 }

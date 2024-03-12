@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tpmtugas2/assets/color/colorPalette.dart';
 
 class OddEvenPage extends StatefulWidget {
   const OddEvenPage({super.key});
@@ -14,19 +15,19 @@ class _OddEvenPageState extends State<OddEvenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF5D3587),
+      backgroundColor: ColorPallete.primaryColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: ColorPallete.secondaryColor,
         title: const Text(
           "ODD EVEN CHECKER",
           textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: ColorPallete.thirdColor),
         ),
       ),
       body: SafeArea(
-        child: Column(
+        child: SingleChildScrollView(child: Column(
           children: [_display(), _numPad()],
-        ),
+        ),),
       ),
     );
   }
@@ -34,9 +35,9 @@ class _OddEvenPageState extends State<OddEvenPage> {
   Widget _display() {
     return Container(
       width: 500,
-      height: 100,
-      margin: EdgeInsets.only(top: 60),
-      color: Color(0xFFA367B1),
+      height: 200,
+      margin: EdgeInsets.only(top: 0),
+      color: ColorPallete.thirdColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,12 +97,13 @@ class _OddEvenPageState extends State<OddEvenPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          backgroundColor: Color(0xFFFFD1E3),
+          backgroundColor: ColorPallete.fourthColor,
         ),
         child: Text(
           num,
           style: const TextStyle(
             fontSize: 24,
+            color: ColorPallete.thirdColor,
           ),
         ),
       ),
@@ -119,11 +121,12 @@ class _OddEvenPageState extends State<OddEvenPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          backgroundColor: Color(0xFFFFD1E3),
+          backgroundColor: ColorPallete.fourthColor,
         ),
         child: Icon(
           icon,
           size: 32,
+          color: ColorPallete.thirdColor,
         ),
       ),
     );
@@ -135,7 +138,10 @@ class _OddEvenPageState extends State<OddEvenPage> {
       if (operator == "number") {
         if (tempNum.length == 1 && tempNum == "0") {
           tempNum = numVal;
-        } else {
+        } else if(tempNum.length > 15){
+          return;
+        }
+        else {
           tempNum += numVal;
         }
       } else {

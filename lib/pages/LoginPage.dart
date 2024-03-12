@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tpmtugas2/assets/color/colorPalette.dart';
 import 'package:tpmtugas2/pages/MenuPage.dart';
 
 final userController = TextEditingController();
 final passController = TextEditingController();
 
-final List<String> authUsername = ["raynald"];
-final List<String> authPassword = ["123210092"];
+final List<String> authUsername = ["raynald", "faisal", "dito"];
+final List<String> authPassword = ["123210092", "123210013", "123210141"];
 
 class loginPage extends StatelessWidget {
   const loginPage({super.key});
@@ -17,7 +18,7 @@ class loginPage extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: AlignmentDirectional.bottomEnd,
-          colors: [Color(0xFFFFD1E3), Color(0xFF392467)],
+          colors: [ColorPallete.fourthColor, ColorPallete.primaryColor],
           //colors: [Color(0xFF9DB2BF), Color(0xFF27374D)],
         ),
       ),
@@ -33,7 +34,7 @@ class loginPage extends StatelessWidget {
                   "LOGIN",
                   style: TextStyle(
                     fontSize: 32,
-                    color: Color(0xFF5D3587),
+                    color: ColorPallete.thirdColor,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
@@ -63,7 +64,7 @@ class FormField extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 10),
               child: _inputField(
-                  "Username", userController, false, Icon(Icons.people_alt)),
+                  "Username", userController, false, Icon(Icons.person)),
             ),
             _inputField("Password", passController, true, Icon(Icons.lock)),
             _inputButton(context),
@@ -95,7 +96,7 @@ class FormField extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (authUsername.contains(userController.text) && passController.text ==
-              authPassword[0]) {
+              authPassword[authUsername.indexOf(userController.text)]) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPage(username: userController.text)));
           } else {
             showDialog<String>(

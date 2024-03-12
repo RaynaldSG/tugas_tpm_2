@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:tpmtugas2/assets/color/colorPalette.dart';
 
 class CalculatorPage extends StatefulWidget {
   const CalculatorPage({super.key});
@@ -19,21 +20,25 @@ class _CalculatorPageState extends State<CalculatorPage> {
   String numberHistory = "";
   String mode = "int";
   String tempOperator = "";
+  bool invalid = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF5D3587),
+      backgroundColor: ColorPallete.primaryColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: ColorPallete.secondaryColor,
         title: const Text(
           "CALCULATOR",
           textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: ColorPallete.thirdColor),
         ),
       ),
-      body: Column(
-        children: [_display(), _numPad()],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [_display(), _numPad()],
+        ),
       ),
     );
   }
@@ -41,26 +46,34 @@ class _CalculatorPageState extends State<CalculatorPage> {
   Widget _display() {
     return Container(
       width: 500,
-      height: 100,
-      margin: EdgeInsets.only(top: 100),
-      color: Color(0xFFA367B1),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            numberHistory,
-            style: TextStyle(
-              fontSize: 24,
+      height: 200,
+      margin: EdgeInsets.only(top: 0),
+      color: ColorPallete.thirdColor,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        reverse: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              numberHistory,
+              style: TextStyle(
+                fontSize: 24,
+              ),
             ),
-          ),
-          Text(
-            numberStr,
-            style: TextStyle(
-              fontSize: 32,
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                numberStr,
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -110,12 +123,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          backgroundColor: Color(0xFFFFD1E3),
+          backgroundColor: ColorPallete.fourthColor,
         ),
         child: Text(
           num,
           style: const TextStyle(
             fontSize: 24,
+            color: ColorPallete.thirdColor,
           ),
         ),
       ),
@@ -133,11 +147,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          backgroundColor: Color(0xFFFFD1E3),
+          backgroundColor: ColorPallete.fourthColor,
         ),
         child: Icon(
           icon,
           size: 32,
+          color: ColorPallete.thirdColor,
         ),
       ),
     );
@@ -146,12 +161,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
   void updateDisplay(String numVal, {String operator = "number"}) {
     String tempNum = "0";
     setState(() {
-      if(numberStr1 == "Undefined"){
+      if (numberStr1 == "Undefined" || invalid) {
         numberStr1 = "0";
+        numberStr2 = "0";
         numberStr = "0";
+        tempOperator = "";
       }
     });
-
     if (tempOperator == "" &&
         (operator == "number" ||
             operator == "decimal" ||
@@ -188,10 +204,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
           break;
         }
         mode = "decimal";
-        if(tempNum.isEmpty){
+        if (tempNum.isEmpty) {
           tempNum += "0.";
-        }
-        else{
+        } else {
           tempNum += ".";
         }
         break;
@@ -227,10 +242,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
         break;
       case "equal":
         if (numberStr2.isEmpty) {
-          tempNum = numberStr1;
-          break;
+          // tempNum = numberStr1;
+          // break;
+          return;
         }
-        if(numberStr2 == "0" && tempOperator == "/"){
+        if (numberStr2 == "0" && tempOperator == "/") {
           tempNum = "Undefined";
           numberHistory = "Undefined";
           tempOperator = "";
@@ -238,29 +254,42 @@ class _CalculatorPageState extends State<CalculatorPage> {
           numberStr1 = tempNum;
           break;
         }
-        if (!numberStr.contains(".")) {
-          calcInt();
-          tempNum = resultInt.toString();
-          if (tempOperator == "/") {
-            if(int.parse(numberStr1) % int.parse(numberStr2) == 0){
-              tempNum = resultDouble.toInt().toString();
-            }
-            else{
-              tempNum = resultDouble.toString();
-            }
-          }
-          numberHistory = numberStr;
-          tempOperator = "";
-          numberStr2 = "";
-          numberStr1 = tempNum;
-        } else {
-          calcDouble();
-          numberHistory = numberStr;
-          tempOperator = "";
-          tempNum = resultDouble.toString();
-          numberStr1 = tempNum;
-          numberStr2 = "";
+        calcDouble();
+        numberHistory = numberStr;
+        if (!numberStr.contains(".") && tempOperator != "/") {
+          tempNum = resultDouble.toInt().toString();
         }
+        else{
+          tempNum = resultDouble.toString();
+        }
+        tempOperator = "";
+        numberStr1 = tempNum;
+        numberStr2 = "";
+
+      // if (!numberStr.contains(".")) {
+      //   calcInt();
+      //   tempNum = resultInt.toString();
+      //
+      //   if (tempOperator == "/") {
+      //     if ((int.parse(numberStr1) % int.parse(numberStr2) == 0) && (int.parse(numberStr2) < int.parse(numberStr1))) {
+      //       tempNum = resultDouble.toInt().toString();
+      //     } else {
+      //       tempNum = resultDouble.toString();
+      //     }
+      //   }
+      //
+      //   numberHistory = numberStr;
+      //   tempOperator = "";
+      //   numberStr2 = "";
+      //   numberStr1 = tempNum;
+      // } else {
+      //   calcDouble();
+      //   numberHistory = numberStr;
+      //   tempOperator = "";
+      //   tempNum = resultDouble.toString();
+      //   numberStr1 = tempNum;
+      //   numberStr2 = "";
+      // }
       default:
         break;
     }
@@ -274,11 +303,17 @@ class _CalculatorPageState extends State<CalculatorPage> {
       //     tempNum += numVal;
       //   }
       // } else {
-      if (tempNum.length == 1 && numberStr == "0") {
+      if ((tempNum.length == 1 && tempNum == "0") || invalid) {
         tempNum = numVal;
+        invalid = false;
       } else {
         tempNum += numVal;
       }
+
+      // if (int.parse(tempNum) > ) {
+      //   tempNum = "Invalid";
+      //   invalid = true;
+      // }
       // }
     }
 

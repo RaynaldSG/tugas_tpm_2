@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tpmtugas2/assets/color/colorPalette.dart';
 import 'package:tpmtugas2/pages/LoginPage.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TUGAS TPM 1',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF392467)),
+        colorScheme: ColorScheme.fromSeed(seedColor: ColorPallete.primaryColor),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
