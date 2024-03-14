@@ -40,7 +40,7 @@ class MenuPage extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Icon(
+            child: const Icon(
               Icons.logout_sharp,
               size: 30,
               color: ColorPallete.thirdColor,

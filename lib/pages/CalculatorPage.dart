@@ -10,17 +10,17 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
-  double numberDouble = 0;
-  double resultDouble = 0;
-  int numberInt = 0;
-  int resultInt = 0;
-  String numberStr1 = "0";
-  String numberStr2 = "";
-  String numberStr = "0";
-  String numberHistory = "";
-  String mode = "int";
-  String tempOperator = "";
-  bool invalid = false;
+  // double numberDouble = 0;
+  // int numberInt = 0;
+  double resultDouble = 0; //container untuk menyimpan hasil double
+  int resultInt = 0; ////container untuk menyimpan hasil integer (tidak terpakai)
+  String numberStr1 = "0"; //menyimpan input angka pertama
+  String numberStr2 = ""; //menyimpan input angka kedua
+  String numberStr = "0"; //menyimpan input keseluruhan dan sebagai display
+  String numberHistory = ""; //menyimpan history operasi
+  String mode = "int"; //menentukan penggunaan int atau double
+  String tempOperator = ""; //menyimpan operator untuk sementara
+  bool invalid = false; //error handler agar dapat reset kalkulator
 
   @override
   Widget build(BuildContext context) {
@@ -241,12 +241,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
         }
         break;
       case "equal":
-        if (numberStr2.isEmpty) {
+        if (numberStr2.isEmpty) { //handler jika input 2 kosong
           // tempNum = numberStr1;
           // break;
           return;
         }
-        if (numberStr2 == "0" && tempOperator == "/") {
+        if (numberStr2 == "0" && (tempOperator == "/" || tempOperator == "%")) { //error handler untuk divide by zero dan mod by zero
           tempNum = "Undefined";
           numberHistory = "Undefined";
           tempOperator = "";
@@ -254,9 +254,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
           numberStr1 = tempNum;
           break;
         }
-        calcDouble();
-        numberHistory = numberStr;
-        if (!numberStr.contains(".") && tempOperator != "/") {
+        calcDouble(); //logika perhitungan
+        numberHistory = numberStr; //menyimpan history erhitungan sebelumnya
+        if (!numberStr.contains(".") && tempOperator != "/") { //deteksi result integer
           tempNum = resultDouble.toInt().toString();
         }
         else{
@@ -303,7 +303,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
       //     tempNum += numVal;
       //   }
       // } else {
-      if ((tempNum.length == 1 && tempNum == "0") || invalid) {
+      if ((tempNum.length == 1 && tempNum == "0") || invalid) { //mengganti 0 pertama dengan value button
         tempNum = numVal;
         invalid = false;
       } else {
@@ -317,18 +317,18 @@ class _CalculatorPageState extends State<CalculatorPage> {
       // }
     }
 
-    setState(() {
-      if (tempOperator == "") {
+    setState(() { //update display dan value
+      if (tempOperator == "") { //update input 1
         numberStr1 = tempNum;
         numberStr = numberStr1;
-      } else {
-        if (numberStr2 == "") {
+      } else { //update input 2
+        // if (numberStr2 == "") {
           numberStr2 = tempNum;
           numberStr = numberStr1 + tempOperator + numberStr2;
-        } else {
-          numberStr2 = tempNum;
-          numberStr = numberStr1 + tempOperator + numberStr2;
-        }
+        // } else {
+        //   numberStr2 = tempNum;
+        //   numberStr = numberStr1 + tempOperator + numberStr2;
+        // }
       }
     });
   }

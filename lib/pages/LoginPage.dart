@@ -13,7 +13,7 @@ class loginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container( //menggunakan container sebelum scaffold untuk memberikan background gradien
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -23,7 +23,7 @@ class loginPage extends StatelessWidget {
         ),
       ),
       child: const Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent, //scaffold transparent agar tidak overwrite bg container
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -107,12 +107,12 @@ class FormField extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 content: const Text(
-                  "Username or Password invalid",
+                  "Username or Password incorrect",
                   textAlign: TextAlign.center,
                 ),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.pop(context, 'OK'),
+                    onPressed: () => Navigator.pop(context), //pop alert dialog
                     child: const Text('OK'),
                   ),
                 ],

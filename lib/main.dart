@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/",
+      initialRoute: "/", //Menentukan halaman pertama yang di render, fungsinya mirip home tapi lebih spesifik
       routes: {
         '/' : (context) => const loginPage(),
       },

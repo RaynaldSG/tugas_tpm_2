@@ -9,8 +9,8 @@ class OddEvenPage extends StatefulWidget {
 }
 
 class _OddEvenPageState extends State<OddEvenPage> {
-  String number = "0";
-  String checkResult = "";
+  String number = "0"; // menyimpan nilai input
+  String checkResult = ""; // menyimpan hasil check
 
   @override
   Widget build(BuildContext context) {
@@ -133,12 +133,12 @@ class _OddEvenPageState extends State<OddEvenPage> {
   }
 
   void updateDisplay(String numVal, {String operator = "number"}) {
-    String tempNum = number;
-    setState(() {
+    String tempNum = number; //menyimpan input sementara
+    setState(() { //update display
       if (operator == "number") {
         if (tempNum.length == 1 && tempNum == "0") {
           tempNum = numVal;
-        } else if(tempNum.length > 15){
+        } else if(tempNum.length > 15){ //memberikan batas agar tidak overflow
           return;
         }
         else {
@@ -146,14 +146,14 @@ class _OddEvenPageState extends State<OddEvenPage> {
         }
       } else {
         switch (operator) {
-          case "delete":
+          case "delete": //delete input satu persatu
             if (tempNum.length == 1) {
               tempNum = "0";
             } else {
               tempNum = tempNum.substring(0, tempNum.length - 1);
             }
             break;
-          case "check":
+          case "check": //operasi logika menentukan ganjil genap
             if(int.parse(tempNum) % 2 == 0){
               checkResult = "EVEN";
             }
